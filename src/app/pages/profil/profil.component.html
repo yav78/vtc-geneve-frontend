@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+<div class="pt-24 max-w-3xl mx-auto px-4">
+  <h2 class="text-2xl font-bold mb-4">Profil & Abonnement</h2>
+  
+  <!-- Loading state -->
+  <div *ngIf="isLoading()" class="text-center py-8">
+    <div class="inline-flex items-center">
+      <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Chargement...
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading()" class="grid gap-6 md:grid-cols-2">
+    <div class="rounded-xl bg-white p-6 shadow">
+      <h3 class="font-semibold mb-2">Informations</h3>
+      <div class="space-y-2 text-sm text-gray-700">
+        <div>Nom: {{ getCurrentUser()()?.firstName }} {{ getCurrentUser()()?.lastName }}</div>
+        <div>Email: {{ getCurrentUser()()?.email }}</div>
+        <div>Statut:
+          <ng-container [ngSwitch]="state().status">
+            <span *ngSwitchCase="'trial'" class="px-2 py-1 rounded bg-amber-100 text-amber-800">Essai actif</span>
+            <span *ngSwitchCase="'active'" class="px-2 py-1 rounded bg-emerald-100 text-emerald-800">Abonné</span>
+            <span *ngSwitchCase="'expired'" class="px-2 py-1 rounded bg-rose-100 text-rose-800">Expiré</span>
+            <span *ngSwitchDefault class="px-2 py-1 rounded bg-gray-100 text-gray-800">Aucun</span>
+          </ng-container>
+        </div>
+        <div *ngIf="state().expiresAt">
+          Expire le: {{ state().expiresAt | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+    </div>
+    
+    <div class="rounded-xl bg-white p-6 shadow">
+      <h3 class="font-semibold mb-2">Abonnement</h3>
+      <p class="text-sm text-gray-600 mb-4">Accès complet aux quiz et statistiques.</p>
+      
+      <!-- Plans disponibles -->
+      <div *ngIf="plans.length > 0" class="mb-4">
+        <h4 class="font-medium mb-2">Plans disponibles:</h4>
+        <div class="space-y-2">
+          <div *ngFor="let plan of plans" class="p-3 border rounded-lg">
+            <div class="font-medium">{{ plan.name }}</div>
+            <div class="text-sm text-gray-600">{{ plan.description }}</div>
+            <div class="text-lg font-bold text-blue-600">{{ plan.price }} CHF</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid gap-3">
+        <button 
+          *ngIf="state().status === 'none'"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded px-4 py-2" 
+          (click)="startTrial()">
+          Démarrer l'essai 24h
+        </button>
+        <button 
+          *ngIf="state().status === 'none'"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded px-4 py-2" 
+          (click)="activateAnnual()">
+          S'abonner
+        </button>
+        <div class="text-xs text-gray-500">Paiements à intégrer: Apple Pay, Google Pay, Carte, PayPal, TWINT</div>
+      </div>
+    </div>
+  </div>
+</div>
