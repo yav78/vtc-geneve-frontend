@@ -6,3 +6,94 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Thème sombre global avec nouvelle palette violet */
+.dark {
+  @apply bg-violetBrand-950 text-violetBrand-50;
+}
+
+/* Surfaces génériques avec nouvelle palette */
+.card-dark { 
+  @apply bg-violetBrand-900/80 text-violetBrand-50 border border-violetBrand-400/20 rounded-xl backdrop-blur; 
+}
+
+.muted { 
+  @apply text-violetBrand-300; 
+}
+
+/* Classes utilitaires avec nouvelle palette violet */
+.bg-violet-gradient {
+  background: linear-gradient(135deg, #FBF6FE 0%, #F4EAFD 25%, #ECD9FB 50%, #DDBBF7 75%, #C890F0 100%);
+}
+
+.bg-violet-gradient-dark {
+  background: linear-gradient(135deg, #40105B 0%, #4E2068 25%, #732E9B 50%, #8833BD 75%, #9D45D8 100%);
+}
+
+.bg-violet-radial {
+  background: radial-gradient(circle at top left, rgba(200,144,240,0.3) 0%, transparent 50%),
+              radial-gradient(circle at bottom right, rgba(157,69,216,0.2) 0%, transparent 50%),
+              linear-gradient(135deg, #FBF6FE 0%, #F4EAFD 100%);
+}
+
+.bg-violet-radial-dark {
+  background: radial-gradient(circle at top left, rgba(200,144,240,0.1) 0%, transparent 50%),
+              radial-gradient(circle at bottom right, rgba(157,69,216,0.1) 0%, transparent 50%),
+              linear-gradient(135deg, #40105B 0%, #4E2068 100%);
+}
+
+/* Effet glassmorphism avec nouvelle palette */
+.glass {
+  @apply bg-violetBrand-50/10 dark:bg-violetBrand-900/20 backdrop-blur-md border border-violetBrand-200/20 dark:border-violetBrand-400/20 rounded-xl shadow-elevated;
+}
+
+.glass-violet {
+  @apply bg-violetBrand-100/20 dark:bg-violetBrand-800/30 backdrop-blur-md border border-violetBrand-300/30 dark:border-violetBrand-500/30 rounded-xl shadow-elevated;
+}
+
+/* Effet de soulignement avec nouvelle palette */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; 
+  bottom: -4px; 
+  height: 2px; 
+  width: 0%;
+  background: linear-gradient(90deg, #B265E7 0%, #9D45D8 100%);
+  transition: width .3s ease-out;
+}
+
+.link-underline:hover::after { 
+  width: 100%; 
+}
+
+/* Animations avec nouvelle palette */
+@keyframes violet-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(157, 69, 216, 0.7); 
+  }
+  50% { 
+    box-shadow: 0 0 0 10px rgba(157, 69, 216, 0); 
+  }
+}
+
+.violet-pulse {
+  animation: violet-pulse 2s infinite;
+}
+
+/* Boutons avec nouvelle palette */
+.btn-violet-primary {
+  @apply bg-violetBrand-600 hover:bg-violetBrand-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 shadow-elevated;
+}
+
+.btn-violet-secondary {
+  @apply bg-violetBrand-100 hover:bg-violetBrand-200 text-violetBrand-800 dark:bg-violetBrand-800 dark:hover:bg-violetBrand-700 dark:text-violetBrand-100 font-semibold py-2 px-4 rounded-lg transition-colors duration-200 border border-violetBrand-300 dark:border-violetBrand-600;
+}
+
+.btn-violet-outline {
+  @apply bg-transparent hover:bg-violetBrand-50 dark:hover:bg-violetBrand-900/50 text-violetBrand-700 dark:text-violetBrand-300 font-semibold py-2 px-4 rounded-lg transition-colors duration-200 border-2 border-violetBrand-600 dark:border-violetBrand-400;
+}

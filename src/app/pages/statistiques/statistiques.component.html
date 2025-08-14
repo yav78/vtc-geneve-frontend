@@ -1,20 +1,20 @@
 <app-navbar></app-navbar>
 
-<main class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-24 pb-8">
+<main class="min-h-screen bg-violet-radial dark:bg-violet-radial-dark pt-24 pb-8">
   <div class="container mx-auto px-4 max-w-6xl">
     
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">Statistiques</h1>
-      <p class="text-gray-600">
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-violetBrand-600 to-violetBrand-500 bg-clip-text text-transparent mb-2">Statistiques</h1>
+      <p class="text-violetBrand-600 dark:text-violetBrand-300">
         Bonjour {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}, voici vos performances
       </p>
     </div>
 
     <!-- Loading -->
     <div *ngIf="isLoading()" class="text-center py-12">
-      <div class="inline-flex items-center">
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <div class="inline-flex items-center text-violetBrand-600 dark:text-violetBrand-400">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
@@ -25,109 +25,109 @@
     <!-- Statistics Grid -->
     <div *ngIf="!isLoading()" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <!-- Score moyen -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="glass-violet rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="p-2 bg-blue-100 rounded-lg">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-2 bg-violetBrand-100 dark:bg-violetBrand-800 rounded-lg">
+            <svg class="w-6 h-6 text-violetBrand-600 dark:text-violetBrand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
           </div>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">Score moyen</h3>
-        <div class="text-3xl font-bold text-blue-600 mb-2">{{ statistics().averageScore }}%</div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
-          <div class="bg-blue-600 h-2 rounded-full" [style.width.%]="statistics().averageScore"></div>
+        <h3 class="text-lg font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-2">Score moyen</h3>
+        <div class="text-3xl font-bold text-violetBrand-600 dark:text-violetBrand-400 mb-2">{{ statistics().averageScore }}%</div>
+        <div class="w-full bg-violetBrand-200 dark:bg-violetBrand-800 rounded-full h-2">
+          <div class="bg-violetBrand-600 dark:bg-violetBrand-400 h-2 rounded-full" [style.width.%]="statistics().averageScore"></div>
         </div>
       </div>
 
       <!-- Taux de réussite -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="glass-violet rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="p-2 bg-green-100 rounded-lg">
-            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-2 bg-violetBrand-100 dark:bg-violetBrand-800 rounded-lg">
+            <svg class="w-6 h-6 text-violetBrand-600 dark:text-violetBrand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">Taux de réussite</h3>
-        <div class="text-3xl font-bold text-green-600 mb-2">{{ statistics().successRate }}%</div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
-          <div class="bg-green-600 h-2 rounded-full" [style.width.%]="statistics().successRate"></div>
+        <h3 class="text-lg font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-2">Taux de réussite</h3>
+        <div class="text-3xl font-bold text-violetBrand-600 dark:text-violetBrand-400 mb-2">{{ statistics().successRate }}%</div>
+        <div class="w-full bg-violetBrand-200 dark:bg-violetBrand-800 rounded-full h-2">
+          <div class="bg-violetBrand-600 dark:bg-violetBrand-400 h-2 rounded-full" [style.width.%]="statistics().successRate"></div>
         </div>
       </div>
 
       <!-- Quiz complétés -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="glass-violet rounded-lg p-6">
         <div class="flex items-center justify-between mb-4">
-          <div class="p-2 bg-purple-100 rounded-lg">
-            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-2 bg-violetBrand-100 dark:bg-violetBrand-800 rounded-lg">
+            <svg class="w-6 h-6 text-violetBrand-600 dark:text-violetBrand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
             </svg>
           </div>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">Quiz complétés</h3>
-        <div class="text-3xl font-bold text-purple-600">{{ statistics().totalQuizzes }}</div>
+        <h3 class="text-lg font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-2">Quiz complétés</h3>
+        <div class="text-3xl font-bold text-violetBrand-600 dark:text-violetBrand-400">{{ statistics().totalQuizzes }}</div>
       </div>
 
       <!-- Meilleur score -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <div class="flex items-center justify-between mb-4">
-          <div class="p-2 bg-yellow-100 rounded-lg">
-            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="glass-violet rounded-lg p-6">
+        <div class="text-center mb-4">
+          <div class="p-2 bg-violetBrand-100 dark:bg-violetBrand-800 rounded-lg inline-block">
+            <svg class="w-6 h-6 text-violetBrand-600 dark:text-violetBrand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
             </svg>
           </div>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mb-2">Meilleur score</h3>
-        <div class="text-3xl font-bold text-yellow-600">{{ statistics().bestScore }}%</div>
+        <h3 class="text-lg font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-2">Meilleur score</h3>
+        <div class="text-3xl font-bold text-violetBrand-600 dark:text-violetBrand-400">{{ statistics().bestScore }}%</div>
       </div>
     </div>
 
     <!-- Detailed Statistics -->
     <div *ngIf="!isLoading()" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
       <!-- Statistiques détaillées -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Statistiques détaillées</h3>
+      <div class="glass-violet rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-4">Statistiques détaillées</h3>
         <div class="space-y-4">
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Questions répondues</span>
-            <span class="font-medium">{{ statistics().totalQuestions }}</span>
+            <span class="text-violetBrand-600 dark:text-violetBrand-300">Questions répondues</span>
+            <span class="font-medium text-violetBrand-800 dark:text-violetBrand-100">{{ statistics().totalQuestions }}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Réponses correctes</span>
-            <span class="font-medium text-green-600">{{ statistics().totalCorrectAnswers }}</span>
+            <span class="text-violetBrand-600 dark:text-violetBrand-300">Réponses correctes</span>
+            <span class="font-medium text-violetBrand-600 dark:text-violetBrand-400">{{ statistics().totalCorrectAnswers }}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Temps total</span>
-            <span class="font-medium">{{ formatDuration(statistics().totalTimeSpent) }}</span>
+            <span class="text-violetBrand-600 dark:text-violetBrand-300">Temps total</span>
+            <span class="font-medium text-violetBrand-800 dark:text-violetBrand-100">{{ formatDuration(statistics().totalTimeSpent) }}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span class="text-gray-600">Dernier quiz</span>
-            <span class="font-medium">{{ statistics().lastQuizDate | date:'dd/MM/yyyy' }}</span>
+            <span class="text-violetBrand-600 dark:text-violetBrand-300">Dernier quiz</span>
+            <span class="font-medium text-violetBrand-800 dark:text-violetBrand-100">{{ statistics().lastQuizDate | date:'dd/MM/yyyy' }}</span>
           </div>
         </div>
       </div>
 
       <!-- Graphique de progression -->
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Progression</h3>
+      <div class="glass-violet rounded-lg p-6">
+        <h3 class="text-xl font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-4">Progression</h3>
         <div class="space-y-4">
           <div>
             <div class="flex justify-between items-center mb-2">
-              <span class="text-sm font-medium text-gray-700">Score moyen</span>
-              <span class="text-sm font-medium text-gray-700">{{ statistics().averageScore }}%</span>
+              <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">Score moyen</span>
+              <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">{{ statistics().averageScore }}%</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-              <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" [style.width.%]="statistics().averageScore"></div>
+            <div class="w-full bg-violetBrand-200 dark:bg-violetBrand-800 rounded-full h-2">
+              <div class="bg-violetBrand-600 dark:bg-violetBrand-400 h-2 rounded-full transition-all duration-300" [style.width.%]="statistics().averageScore"></div>
             </div>
           </div>
           <div>
             <div class="flex justify-between items-center mb-2">
-              <span class="text-sm font-medium text-gray-700">Taux de réussite</span>
-              <span class="text-sm font-medium text-gray-700">{{ statistics().successRate }}%</span>
+              <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">Taux de réussite</span>
+              <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">{{ statistics().successRate }}%</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-              <div class="bg-green-600 h-2 rounded-full transition-all duration-300" [style.width.%]="statistics().successRate"></div>
+            <div class="w-full bg-violetBrand-200 dark:bg-violetBrand-800 rounded-full h-2">
+              <div class="bg-violetBrand-600 dark:bg-violetBrand-400 h-2 rounded-full transition-all duration-300" [style.width.%]="statistics().successRate"></div>
             </div>
           </div>
         </div>
@@ -135,12 +135,12 @@
     </div>
 
     <!-- Quiz History -->
-    <div *ngIf="!isLoading()" class="bg-white rounded-lg shadow-lg p-6">
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">Historique des quiz</h3>
+    <div *ngIf="!isLoading()" class="glass-violet rounded-lg p-6">
+      <h3 class="text-xl font-semibold text-violetBrand-800 dark:text-violetBrand-100 mb-4">Historique des quiz</h3>
       
       <div *ngIf="quizHistory().length === 0" class="text-center py-8">
-        <div class="text-gray-500">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="text-violetBrand-500 dark:text-violetBrand-400">
+          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
           </svg>
           <p class="mt-2">Aucun quiz complété pour le moment</p>
@@ -148,18 +148,18 @@
       </div>
 
       <div *ngIf="quizHistory().length > 0" class="space-y-4">
-        <div *ngFor="let quiz of quizHistory()" class="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+        <div *ngFor="let quiz of quizHistory()" class="border border-violetBrand-200/50 dark:border-violetBrand-700/50 rounded-lg p-4 hover:bg-violetBrand-50/50 dark:hover:bg-violetBrand-800/30 transition-colors">
           <div class="flex justify-between items-center">
             <div>
-              <h4 class="font-medium text-gray-800">Quiz #{{ quiz.id }}</h4>
-              <p class="text-sm text-gray-600">{{ quiz.completedAt | date:'dd/MM/yyyy à HH:mm' }}</p>
+              <h4 class="font-medium text-violetBrand-800 dark:text-violetBrand-100">Quiz #{{ quiz.id }}</h4>
+              <p class="text-sm text-violetBrand-600 dark:text-violetBrand-300">{{ quiz.completedAt | date:'dd/MM/yyyy à HH:mm' }}</p>
             </div>
             <div class="text-right">
-              <div class="text-2xl font-bold" [class]="getScoreColor(quiz.score)">{{ quiz.score }}%</div>
-              <div class="text-sm text-gray-600">{{ quiz.correctAnswers }}/{{ quiz.totalQuestions }} réponses correctes</div>
+              <div class="text-2xl font-bold text-violetBrand-600 dark:text-violetBrand-400" [class]="getScoreColor(quiz.score)">{{ quiz.score }}%</div>
+              <div class="text-sm text-violetBrand-600 dark:text-violetBrand-300">{{ quiz.correctAnswers }}/{{ quiz.totalQuestions }} réponses correctes</div>
             </div>
           </div>
-          <div class="mt-2 flex justify-between items-center text-sm text-gray-500">
+          <div class="mt-2 flex justify-between items-center text-sm text-violetBrand-500 dark:text-violetBrand-400">
             <span>Durée: {{ formatDuration(quiz.duration) }}</span>
             <span *ngIf="quiz.categoryName">Catégorie: {{ quiz.categoryName }}</span>
           </div>

@@ -1,1 +1,10 @@
 <router-outlet />
+
+<!-- Prompt de mise à jour PWA -->
+<div style="position: fixed; right: 16px; bottom: 16px; z-index: 9999;">
+  <button *ngIf="updateAvailable()"
+          (click)="reloadWithUpdate()"
+          class="bg-violetBrand-600 hover:bg-violetBrand-700 text-white px-4 py-2 rounded-lg shadow-elevated transition-colors">
+    Nouvelle version disponible – Mettre à jour
+  </button>
+</div>

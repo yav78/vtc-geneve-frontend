@@ -101,7 +101,7 @@ export interface CreateQuestionSessionDto {
   questionIds: string[];
 }
 
-export interface QuestionSessionResponseDto {
+export interface QuestionSession {
   id: string;
   name: string;
   description: string;
@@ -112,8 +112,9 @@ export interface QuestionSessionResponseDto {
   passingScore: number;
   createdAt: string;
   updatedAt: string;
-  category: Category;
-  questionCount: number;
+  category?: Category;
+  questionCount?: number;
+  questions: Question[];
 }
 
 export interface UpdateQuestionSessionDto {
@@ -123,6 +124,7 @@ export interface UpdateQuestionSessionDto {
   timeLimit?: number;
   passingScore?: number;
   isActive?: boolean;
+  questionIds?: string[];
 }
 
 // Interfaces de sessions de quiz

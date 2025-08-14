@@ -4,7 +4,7 @@ import { NgIf, NgFor, DecimalPipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { QuizService } from '../../core/services/quiz.service';
 import { Router } from '@angular/router';
-import { Question, AnswerChoice, QuizSession, SubmitAnswerDto } from '../../core/models/api.models';
+import { Question, AnswerChoice, QuizSession, SubmitAnswerDto, QuestionSession, Category } from '../../core/models/api.models';
 
 @Component({
   selector: 'app-quiz',
@@ -21,17 +21,19 @@ export class QuizComponent implements OnInit {
   question = signal<Question | null>(null);
   answers = signal<number[]>([]);
   startTime = signal<Date | null>(null);
-  
+
   questions: Question[] = [];
   currentQuizSession: QuizSession | null = null;
   categories: any[] = [];
+  questionSessions: QuestionSession[] = [];
   selectedCategory: string | null = null;
-  
+  selectedQuestionSession: string | null = null;
+
   constructor(
     private readonly authService: AuthService,
     private readonly quizService: QuizService,
     private readonly router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Vérifier si l'utilisateur est connecté
@@ -41,8 +43,9 @@ export class QuizComponent implements OnInit {
       return;
     }
 
-    // Charger les catégories
+    // Charger les catégories et sessions de questions
     this.loadCategories();
+    this.loadQuestionSessions();
   }
 
   private loadCategories() {
@@ -59,31 +62,62 @@ export class QuizComponent implements OnInit {
     });
   }
 
+  private loadQuestionSessions() {
+    this.quizService.getQuestionSessions().subscribe({
+      next: (sessions) => {
+        this.questionSessions = sessions;
+        console.log(this.questionSessions);
+        if (sessions.length > 0) {
+          this.selectedQuestionSession = sessions[0].id;
+        }
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des sessions de questions:', error);
+      }
+    });
+  }
+
   async startQuiz() {
-    if (!this.selectedCategory) {
-      alert('Veuillez sélectionner une catégorie');
+    if (!this.selectedQuestionSession) {
+      alert('Veuillez sélectionner une session de quiz');
       return;
     }
 
     this.isLoading.set(true);
 
     try {
-      // Récupérer les questions de la catégorie
-      this.quizService.getQuestionsByCategory(this.selectedCategory, 100).subscribe({
-        next: (questions) => {
-          this.questions = questions;
-          if (questions.length === 0) {
-            alert('Aucune question disponible pour cette catégorie');
-            this.isLoading.set(false);
-            return;
-          }
+      // Démarrer une session de quiz
+      this.quizService.startQuizSession(this.selectedQuestionSession).subscribe({
+        next: (quizSession) => {
+          this.currentQuizSession = quizSession;
 
-          // Démarrer la session de quiz
-          this.startQuizSession();
+          // Récupérer les questions de la session
+          this.quizService.getQuestionSessionWithQuestions(this.selectedQuestionSession!).subscribe({
+            next: (sessionWithQuestions) => {
+              // Récupérer les questions via l'endpoint approprié
+              // Selon le Swagger, on peut utiliser l'endpoint pour récupérer les questions par catégorie
+              console.log(sessionWithQuestions);
+
+              this.questions = sessionWithQuestions.questions;
+              // Démarrer le quiz
+              this.started.set(true);
+              this.completed.set(false);
+              this.startTime.set(new Date());
+              this.answers.set(new Array(this.questions.length).fill(-1));
+              this.index.set(0);
+              this.loadQuestion();
+              this.isLoading.set(false);
+            },
+            error: (error) => {
+              console.error('Erreur lors du chargement de la session:', error);
+              alert('Erreur lors du chargement de la session');
+              this.isLoading.set(false);
+            }
+          });
         },
         error: (error) => {
-          console.error('Erreur lors du chargement des questions:', error);
-          alert('Erreur lors du chargement des questions');
+          console.error('Erreur lors du démarrage de la session:', error);
+          alert('Erreur lors du démarrage de la session');
           this.isLoading.set(false);
         }
       });
@@ -91,18 +125,6 @@ export class QuizComponent implements OnInit {
       console.error('Erreur lors du démarrage du quiz:', error);
       this.isLoading.set(false);
     }
-  }
-
-  private startQuizSession() {
-    // Pour l'instant, on simule une session de quiz
-    // En production, vous devriez créer une session via l'API
-    this.started.set(true);
-    this.completed.set(false);
-    this.startTime.set(new Date());
-    this.answers.set(new Array(this.questions.length).fill(-1));
-    this.index.set(0);
-    this.loadQuestion();
-    this.isLoading.set(false);
   }
 
   loadQuestion() {
@@ -138,35 +160,57 @@ export class QuizComponent implements OnInit {
     const endTime = new Date();
     const startTime = this.startTime();
     const duration = startTime ? Math.round((endTime.getTime() - startTime.getTime()) / 60000) : 0;
-    
-    // Calculer le score
+
+    if (!this.currentQuizSession) {
+      console.error('Aucune session de quiz active');
+      return;
+    }
+
+    // Soumettre toutes les réponses
     const answers = this.answers();
-    let correctAnswers = 0;
-    
+    let submittedAnswers = 0;
+
     for (let i = 0; i < this.questions.length; i++) {
       const question = this.questions[i];
       const answerIndex = answers[i];
-      
-      if (answerIndex >= 0 && 
-          question.answerChoices && 
-          question.answerChoices[answerIndex] && 
-          question.correctAnswerId &&
-          question.answerChoices[answerIndex].id === question.correctAnswerId) {
-        correctAnswers++;
+
+      if (answerIndex >= 0 && question.answerChoices && question.answerChoices[answerIndex]) {
+        const submitData: SubmitAnswerDto = {
+          questionId: question.id,
+          answerChoiceId: question.answerChoices[answerIndex].id,
+          timeSpent: duration / this.questions.length // Temps moyen par question
+        };
+
+        this.quizService.submitAnswer(this.currentQuizSession.id, submitData).subscribe({
+          next: () => {
+            submittedAnswers++;
+            if (submittedAnswers === this.questions.length) {
+              // Toutes les réponses soumises, terminer la session
+              this.finalizeQuiz();
+            }
+          },
+          error: (error) => {
+            console.error('Erreur lors de la soumission de la réponse:', error);
+          }
+        });
       }
     }
-    
-    const score = Math.round((correctAnswers / this.questions.length) * 100);
-    
-    // Enregistrer le résultat (pour l'instant en local)
-    try {
-      // Ici vous devriez appeler l'API pour enregistrer le résultat
-      console.log('Quiz terminé:', { score, correctAnswers, totalQuestions: this.questions.length });
-      this.completed.set(true);
-    } catch (error) {
-      console.error('Erreur lors de l\'enregistrement du résultat:', error);
-      alert('Erreur lors de l\'enregistrement du résultat');
-    }
+  }
+
+  private finalizeQuiz() {
+    if (!this.currentQuizSession) return;
+
+    this.quizService.completeQuizSession(this.currentQuizSession.id).subscribe({
+      next: (completedSession) => {
+        this.currentQuizSession = completedSession;
+        this.completed.set(true);
+        console.log('Quiz terminé:', completedSession);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la finalisation du quiz:', error);
+        alert('Erreur lors de la finalisation du quiz');
+      }
+    });
   }
 
   getProgressPercentage(): number {
@@ -174,23 +218,10 @@ export class QuizComponent implements OnInit {
   }
 
   getScore(): number {
-    const answers = this.answers();
-    let correctAnswers = 0;
-    
-    for (let i = 0; i < this.questions.length; i++) {
-      const question = this.questions[i];
-      const answerIndex = answers[i];
-      
-      if (answerIndex >= 0 && 
-          question.answerChoices && 
-          question.answerChoices[answerIndex] && 
-          question.correctAnswerId &&
-          question.answerChoices[answerIndex].id === question.correctAnswerId) {
-        correctAnswers++;
-      }
+    if (this.currentQuizSession) {
+      return this.currentQuizSession.score;
     }
-    
-    return this.questions.length > 0 ? Math.round((correctAnswers / this.questions.length) * 100) : 0;
+    return 0;
   }
 
   getAnsweredQuestionsCount(): number {
@@ -198,23 +229,10 @@ export class QuizComponent implements OnInit {
   }
 
   getCorrectAnswersCount(): number {
-    const answers = this.answers();
-    let correctAnswers = 0;
-    
-    for (let i = 0; i < this.questions.length; i++) {
-      const question = this.questions[i];
-      const answerIndex = answers[i];
-      
-      if (answerIndex >= 0 && 
-          question.answerChoices && 
-          question.answerChoices[answerIndex] && 
-          question.correctAnswerId &&
-          question.answerChoices[answerIndex].id === question.correctAnswerId) {
-        correctAnswers++;
-      }
+    if (this.currentQuizSession) {
+      return this.currentQuizSession.correctAnswers;
     }
-    
-    return correctAnswers;
+    return 0;
   }
 
   // Propriété pour l'état de chargement
@@ -223,5 +241,14 @@ export class QuizComponent implements OnInit {
   // Méthode publique pour la navigation
   navigateToStatistics() {
     this.router.navigate(['/statistiques']);
+  }
+
+  getCategoryById(id: string): Category {
+    return this.categories.find(category => category.id === id);
+  }
+
+  getSessionQuestionByCategoryType(categoryType: string): QuestionSession[] {
+    const categoryId = this.categories.find(cat => cat.type === categoryType).id
+    return this.questionSessions.filter(question => question.categoryId === categoryId);
   }
 }

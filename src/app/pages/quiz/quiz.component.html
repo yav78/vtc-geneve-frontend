@@ -1,25 +1,63 @@
 <app-navbar></app-navbar>
 
-<main class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-24 pb-8">
+<main class="min-h-screen bg-violet-radial dark:bg-violet-radial-dark pt-24 pb-8">
   <div class="container mx-auto px-4 max-w-4xl">
     
-    <!-- Sélection de catégorie -->
-    <div *ngIf="!started() && !completed()" class="bg-white rounded-lg shadow-lg p-6 mb-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Sélectionner une catégorie</h2>
+    <!-- Sélection de session de quiz -->
+    <div *ngIf="!started() && !completed()" class="glass-violet rounded-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold text-center text-violetBrand-800 dark:text-violetBrand-100 mb-4">Sélectionner une session de quiz</h2>
+      <div class="text-xl text-violetBrand-800 dark:text-violetBrand-100 mb-4">Topographie</div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div 
-          *ngFor="let category of categories" 
-          (click)="selectedCategory = category.id"
+          *ngFor="let session of getSessionQuestionByCategoryType('topographie')" 
+          (click)="selectedQuestionSession = session.id"
           [class]="'p-4 border-2 rounded-lg cursor-pointer transition-all ' + 
-                   (selectedCategory === category.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300')">
-          <h3 class="font-semibold text-gray-800">{{ category.name }}</h3>
-          <p class="text-sm text-gray-600 mt-1">{{ category.description }}</p>
+                   (selectedQuestionSession === session.id ? 'border-violetBrand-600 bg-violetBrand-100/50 dark:bg-violetBrand-800/50' : 'border-violetBrand-200 hover:border-violetBrand-400/60 dark:border-violetBrand-700 dark:hover:border-violetBrand-400/40')">
+          <h3 class="font-semibold text-violetBrand-800 dark:text-violetBrand-100 text-center">{{ session.name }}</h3>
+          <p class="text-sm text-violetBrand-600 dark:text-violetBrand-300 mt-1 text-center">{{ session.description }}</p>
+          <div class="mt-2 text-xs text-center">
+            <span class="inline-block bg-violetBrand-100 dark:bg-violetBrand-800 text-violetBrand-700 dark:text-violetBrand-300 px-2 py-1 rounded">
+              {{ session.type === 'exam' ? 'Examen' : 'Entraînement' }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="text-xl text-violetBrand-800 dark:text-violetBrand-100 mb-4">Taxi</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div 
+          *ngFor="let session of getSessionQuestionByCategoryType('taxi')" 
+          (click)="selectedQuestionSession = session.id"
+          [class]="'p-4 border-2 rounded-lg cursor-pointer transition-all ' + 
+                   (selectedQuestionSession === session.id ? 'border-violetBrand-600 bg-violetBrand-100/50 dark:bg-violetBrand-800/50' : 'border-violetBrand-200 hover:border-violetBrand-400/60 dark:border-violetBrand-700 dark:hover:border-violetBrand-400/40')">
+          <h3 class="font-semibold text-violetBrand-800 dark:text-violetBrand-100 text-center">{{ session.name }}</h3>
+          <p class="text-sm text-violetBrand-600 dark:text-violetBrand-300 mt-1 text-center">{{ session.description }}</p>
+          <div class="mt-2 text-xs text-center">
+            <span class="inline-block bg-violetBrand-100 dark:bg-violetBrand-800 text-violetBrand-700 dark:text-violetBrand-300 px-2 py-1 rounded">
+              {{ session.type === 'exam' ? 'Examen' : 'Entraînement' }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="text-xl text-violetBrand-800 dark:text-violetBrand-100 mb-4">Loi</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div 
+          *ngFor="let session of getSessionQuestionByCategoryType('loi')" 
+          (click)="selectedQuestionSession = session.id"
+          [class]="'p-4 border-2 rounded-lg cursor-pointer transition-all ' + 
+                   (selectedQuestionSession === session.id ? 'border-violetBrand-600 bg-violetBrand-100/50 dark:bg-violetBrand-800/50' : 'border-violetBrand-200 hover:border-violetBrand-400/60 dark:border-violetBrand-700 dark:hover:border-violetBrand-400/40')">
+          <h3 class="font-semibold text-violetBrand-800 dark:text-violetBrand-100 text-center">{{ session.name }}</h3>
+          <p class="text-sm text-violetBrand-600 dark:text-violetBrand-300 mt-1 text-center">{{ session.description }}</p>
+          <div class="mt-2 text-xs text-center">
+            <span class="inline-block bg-violetBrand-100 dark:bg-violetBrand-800 text-violetBrand-700 dark:text-violetBrand-300 px-2 py-1 rounded">
+              {{ session.type === 'exam' ? 'Examen' : 'Entraînement' }}
+            </span>
+          </div>
         </div>
       </div>
       <button 
         (click)="startQuiz()" 
-        [disabled]="!selectedCategory || isLoading()"
-        class="mt-6 w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+        [disabled]="!selectedQuestionSession || isLoading()"
+        class="mt-6 w-full btn-violet-primary disabled:opacity-50 disabled:cursor-not-allowed">
         <span *ngIf="isLoading()" class="inline-flex items-center">
           <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -32,21 +70,21 @@
     </div>
 
     <!-- Quiz en cours -->
-    <div *ngIf="started() && !completed()" class="bg-white rounded-lg shadow-lg p-6">
+    <div *ngIf="started() && !completed()" class="glass-violet rounded-lg p-6">
       <!-- Barre de progression -->
       <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
-          <span class="text-sm font-medium text-gray-700">Question {{ index() + 1 }} sur {{ questions.length }}</span>
-          <span class="text-sm font-medium text-gray-700">{{ getProgressPercentage() | number:'1.0-0' }}%</span>
+          <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">Question {{ index() + 1 }} sur {{ questions.length }}</span>
+          <span class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200">{{ getProgressPercentage() | number:'1.0-0' }}%</span>
         </div>
-        <div class="w-full bg-gray-200 rounded-full h-2">
-          <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" [style.width.%]="getProgressPercentage()"></div>
+        <div class="w-full bg-violetBrand-200 dark:bg-violetBrand-800 rounded-full h-2">
+          <div class="bg-violetBrand-600 dark:bg-violetBrand-400 h-2 rounded-full transition-all duration-300" [style.width.%]="getProgressPercentage()"></div>
         </div>
       </div>
 
       <!-- Question -->
       <div *ngIf="question()" class="mb-8">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">{{ question()!.text }}</h2>
+        <h2 class="text-xl font-semibold text-center text-violetBrand-800 dark:text-violetBrand-100 mb-6">{{ question()!.text }}</h2>
         
         <!-- Réponses -->
         <div class="space-y-3">
@@ -54,8 +92,8 @@
             *ngFor="let answer of question()!.answerChoices; let i = index"
             (click)="selectAnswer(i)"
             [class]="'w-full text-left p-4 rounded-lg border-2 transition-all ' + 
-                     (selected() === i ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300')">
-            <span class="font-medium text-gray-800">{{ answer.text }}</span>
+                     (selected() === i ? 'border-violetBrand-600 bg-violetBrand-100/50 dark:border-violetBrand-400/70 dark:bg-violetBrand-800/30' : 'border-violetBrand-200 dark:border-violetBrand-700 hover:border-violetBrand-400/60 dark:hover:border-violetBrand-400/40')">
+            <span class="font-medium text-violetBrand-800 dark:text-violetBrand-100">{{ answer.text }}</span>
           </button>
         </div>
       </div>
@@ -65,51 +103,51 @@
         <button 
           (click)="prev()" 
           [disabled]="index() === 0"
-          class="bg-gray-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">
+          class="bg-violetBrand-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-violetBrand-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
           Précédent
         </button>
         
         <button 
           (click)="next()" 
           [disabled]="selected() === null"
-          class="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
+          class="btn-violet-primary disabled:opacity-50 disabled:cursor-not-allowed">
           {{ index() === questions.length - 1 ? 'Terminer' : 'Suivant' }}
         </button>
       </div>
     </div>
 
     <!-- Résultats -->
-    <div *ngIf="completed()" class="bg-white rounded-lg shadow-lg p-6">
+    <div *ngIf="completed()" class="glass-violet rounded-lg p-6">
       <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">Quiz terminé !</h2>
-        <div class="text-6xl font-bold text-blue-600 mb-2">{{ getScore() }}%</div>
-        <p class="text-gray-600">Score final</p>
+        <h2 class="text-3xl font-bold text-violetBrand-700 dark:text-violetBrand-400 mb-4">Quiz terminé !</h2>
+        <div class="text-6xl font-bold text-violetBrand-600 dark:text-violetBrand-400 mb-2 animate-float">{{ getScore() }}%</div>
+        <p class="text-violetBrand-600 dark:text-violetBrand-300">Score final</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="text-center p-4 bg-blue-50 rounded-lg">
-          <div class="text-2xl font-bold text-blue-600">{{ getAnsweredQuestionsCount() }}</div>
-          <p class="text-gray-600">Questions répondues</p>
+        <div class="text-center p-4 rounded-lg bg-violetBrand-100/50 dark:bg-violetBrand-800/30">
+          <div class="text-2xl font-bold text-violetBrand-700 dark:text-violetBrand-400">{{ getAnsweredQuestionsCount() }}</div>
+          <p class="text-violetBrand-600 dark:text-violetBrand-300">Questions répondues</p>
         </div>
-        <div class="text-center p-4 bg-green-50 rounded-lg">
-          <div class="text-2xl font-bold text-green-600">{{ getCorrectAnswersCount() }}</div>
-          <p class="text-gray-600">Réponses correctes</p>
+        <div class="text-center p-4 rounded-lg bg-violetBrand-100/50 dark:bg-violetBrand-800/30">
+          <div class="text-2xl font-bold text-violetBrand-700 dark:text-violetBrand-400">{{ getCorrectAnswersCount() }}</div>
+          <p class="text-violetBrand-600 dark:text-violetBrand-300">Réponses correctes</p>
         </div>
-        <div class="text-center p-4 bg-purple-50 rounded-lg">
-          <div class="text-2xl font-bold text-purple-600">{{ questions.length }}</div>
-          <p class="text-gray-600">Total questions</p>
+        <div class="text-center p-4 rounded-lg bg-violetBrand-100/50 dark:bg-violetBrand-800/30">
+          <div class="text-2xl font-bold text-violetBrand-700 dark:text-violetBrand-400">{{ questions.length }}</div>
+          <p class="text-violetBrand-600 dark:text-violetBrand-300">Total questions</p>
         </div>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-4">
         <button 
           (click)="navigateToStatistics()"
-          class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700">
+          class="flex-1 btn-violet-primary">
           Voir les statistiques
         </button>
         <button 
           (click)="started.set(false); completed.set(false); index.set(0); selected.set(null); question.set(null); answers.set([]); startTime.set(null)"
-          class="flex-1 bg-gray-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-700">
+          class="flex-1 bg-violetBrand-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-violetBrand-600 transition-colors">
           Recommencer
         </button>
       </div>

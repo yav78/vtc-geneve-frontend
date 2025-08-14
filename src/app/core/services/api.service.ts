@@ -14,6 +14,7 @@ export interface ApiResponse<T> {
 })
 export class ApiService {
   private baseUrl = 'http://localhost:3000'; // Ajustez selon votre configuration backend
+  // private baseUrl = 'http://vtc.cakirtech.com'; // Ajustez selon votre configuration backend
 
   constructor(private http: HttpClient) {}
 

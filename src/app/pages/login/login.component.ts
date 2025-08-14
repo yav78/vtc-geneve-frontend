@@ -41,6 +41,7 @@ export class LoginComponent {
         error: (error) => {
           console.error('Erreur de connexion:', error);
           this.errorMessage.set(error.message || 'Email ou mot de passe incorrect');
+          this.isLoading.set(false);
         },
         complete: () => {
           this.isLoading.set(false);

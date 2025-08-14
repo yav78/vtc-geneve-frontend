@@ -4,7 +4,7 @@ import { ApiService } from './api.service';
 import { 
   Category, 
   Question, 
-  QuestionSessionResponseDto, 
+  QuestionSession, 
   QuizSession, 
   QuizAnswer, 
   SubmitAnswerDto,
@@ -26,8 +26,12 @@ export class QuizService {
     return this.apiService.get<Category>(`/categories/${id}`);
   }
 
+  getQuestionsByCategory(categoryId: string, limit: number, page: number): Observable<Question[]> {
+    return this.apiService.get<Question[]>(`/categories/${categoryId}/questions?limit=${limit}&page=${page}`);
+  }
+
   // Questions
-  getQuestionsByCategory(categoryId: string, limit?: number): Observable<Question[]> {
+  getRandomQuestionsByCategory(categoryId: string, limit?: number): Observable<Question[]> {
     const params = limit ? `?limit=${limit}` : '';
     return this.apiService.get<Question[]>(`/questions/category/${categoryId}${params}`);
   }
@@ -37,26 +41,28 @@ export class QuizService {
   }
 
   // Sessions de questions
-  getQuestionSessions(type?: 'normal' | 'exam'): Observable<QuestionSessionResponseDto[]> {
-    const params = type ? `?type=${type}` : '';
-    return this.apiService.get<QuestionSessionResponseDto[]>(`/question-sessions${params}`);
+  getQuestionSessions(): Observable<QuestionSession[]> {
+    return this.apiService.get<QuestionSession[]>('/question-sessions');
   }
 
-  getQuestionSessionsByCategory(categoryId: string, type?: 'normal' | 'exam'): Observable<QuestionSessionResponseDto[]> {
-    const params = type ? `?type=${type}` : '';
-    return this.apiService.get<QuestionSessionResponseDto[]>(`/question-sessions/category/${categoryId}${params}`);
+  getQuestionSessionById(id: string): Observable<QuestionSession> {
+    return this.apiService.get<QuestionSession>(`/question-sessions/${id}`);
   }
 
-  getQuestionSessionById(id: string): Observable<QuestionSessionResponseDto> {
-    return this.apiService.get<QuestionSessionResponseDto>(`/question-sessions/${id}`);
+  getQuestionSessionWithQuestions(id: string): Observable<QuestionSession> {
+    return this.apiService.get<QuestionSession>(`/question-sessions/${id}/with-questions`);
   }
 
-  getQuestionSessionWithQuestions(id: string): Observable<QuestionSessionResponseDto> {
-    return this.apiService.get<QuestionSessionResponseDto>(`/question-sessions/${id}/with-questions`);
+  createQuestionSession(sessionData: CreateQuestionSessionDto): Observable<QuestionSession> {
+    return this.apiService.post<QuestionSession>('/question-sessions', sessionData);
   }
 
-  createQuestionSession(sessionData: CreateQuestionSessionDto): Observable<QuestionSessionResponseDto> {
-    return this.apiService.post<QuestionSessionResponseDto>('/question-sessions', sessionData);
+  updateQuestionSession(id: string, sessionData: any): Observable<QuestionSession> {
+    return this.apiService.put<QuestionSession>(`/question-sessions/${id}`, sessionData);
+  }
+
+  deleteQuestionSession(id: string): Observable<void> {
+    return this.apiService.delete<void>(`/question-sessions/${id}`);
   }
 
   // Sessions de quiz

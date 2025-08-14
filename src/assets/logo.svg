@@ -1,0 +1,33 @@
+<svg width="400" height="120" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text {
+      font-family: 'Arial', sans-serif;
+      font-size: 48px;
+      font-weight: bold;
+      fill: none;
+      stroke: #7c31bf;
+      stroke-width: 2;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      animation: draw 2s ease forwards, fillColor 1s ease forwards 2.2s;
+    }
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    @keyframes fillColor {
+      to {
+        fill: #7c31bf;
+        stroke: none;
+      }
+    }
+  </style>
+  <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text">
+    VTC - GENEVE
+  </text>
+</svg>
+
+
+
+
