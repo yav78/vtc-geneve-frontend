@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ApiService } from './api.service';
+import { UserService } from './user.service';
 import { 
   LoginDto, 
   RegisterDto, 
@@ -30,7 +31,8 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private userService: UserService
   ) {
     // Vérifier s'il y a un token stocké
     const token = localStorage.getItem('accessToken');
@@ -102,7 +104,7 @@ export class AuthService {
       return throwError(() => new Error('Utilisateur non connecté'));
     }
 
-    return this.apiService.put<UserResponseDto>(`/users/${userId}`, updateData)
+    return this.userService.updateUser(userId, updateData)
       .pipe(
         tap(user => {
           const userWithSubscription = this.mapUserResponseToUser(user);
@@ -111,6 +113,25 @@ export class AuthService {
         }),
         catchError(error => {
           console.error('Erreur lors de la mise à jour du profil:', error);
+          return throwError(() => error);
+        })
+      );
+  }
+
+  // Supprimer le compte utilisateur
+  deleteAccount(): Observable<void> {
+    const userId = this.currentUser()?.id;
+    if (!userId) {
+      return throwError(() => new Error('Utilisateur non connecté'));
+    }
+
+    return this.userService.deleteUser(userId)
+      .pipe(
+        tap(() => {
+          this.logout();
+        }),
+        catchError(error => {
+          console.error('Erreur lors de la suppression du compte:', error);
           return throwError(() => error);
         })
       );

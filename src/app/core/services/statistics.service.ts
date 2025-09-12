@@ -36,9 +36,17 @@ export class StatisticsService {
 
   // Charger les résultats depuis l'API
   private loadQuizResults() {
+    // Charger d'abord depuis localStorage
+    const localResults = this.loadQuizResultsFromLocalStorage();
+    if (localResults.length > 0) {
+      this.quizResults.set(localResults);
+      console.log('Résultats chargés depuis localStorage:', localResults.length, 'quiz');
+    }
+    
+    // Ensuite charger depuis l'API pour synchroniser
     this.apiService.get<QuizSession[]>('/quiz-sessions/my-sessions').subscribe({
       next: (sessions) => {
-        const results: QuizResult[] = sessions.map(session => ({
+        const apiResults: QuizResult[] = sessions.map(session => ({
           id: session.id,
           score: session.score,
           totalQuestions: session.totalQuestions,
@@ -47,11 +55,17 @@ export class StatisticsService {
           duration: session.timeSpent,
           categoryName: 'Quiz' // À récupérer depuis la session de questions
         }));
-        this.quizResults.set(results);
+        
+        // Combiner les résultats locaux et API (éviter les doublons)
+        const combinedResults = [...localResults, ...apiResults];
+        this.quizResults.set(combinedResults);
+        this.saveQuizResultsToLocalStorage(combinedResults);
+        
+        console.log('Résultats synchronisés avec l\'API:', combinedResults.length, 'quiz');
       },
       error: (error) => {
-        console.error('Erreur lors du chargement des résultats:', error);
-        this.quizResults.set([]);
+        console.error('Erreur lors du chargement des résultats depuis l\'API:', error);
+        // Garder les résultats locaux si l'API échoue
       }
     });
   }
@@ -63,11 +77,44 @@ export class StatisticsService {
       id: Date.now().toString() // ID temporaire
     };
     
+    console.log('Ajout du résultat aux statistiques:', newResult);
+    
     const currentResults = this.quizResults();
     this.quizResults.set([newResult, ...currentResults]);
     
+    // Sauvegarder dans localStorage pour persistance
+    this.saveQuizResultsToLocalStorage([newResult, ...currentResults]);
+    
     // En production, vous devriez appeler l'API pour sauvegarder
-    console.log('Résultat ajouté:', newResult);
+    // this.apiService.post('/quiz-sessions', newResult).subscribe({
+    //   next: (response) => console.log('Résultat sauvegardé sur le serveur:', response),
+    //   error: (error) => console.error('Erreur lors de la sauvegarde:', error)
+    // });
+  }
+  
+  // Sauvegarder les résultats dans localStorage
+  private saveQuizResultsToLocalStorage(results: QuizResult[]): void {
+    try {
+      localStorage.setItem('quiz_results', JSON.stringify(results));
+      console.log('Résultats sauvegardés dans localStorage');
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde dans localStorage:', error);
+    }
+  }
+  
+  // Charger les résultats depuis localStorage
+  private loadQuizResultsFromLocalStorage(): QuizResult[] {
+    try {
+      const saved = localStorage.getItem('quiz_results');
+      if (saved) {
+        const results = JSON.parse(saved);
+        console.log('Résultats chargés depuis localStorage:', results);
+        return results;
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement depuis localStorage:', error);
+    }
+    return [];
   }
 
   // Obtenir les statistiques de l'utilisateur

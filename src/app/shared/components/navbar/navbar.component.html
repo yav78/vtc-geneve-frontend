@@ -1,0 +1,341 @@
+<!-- Navbar principale fixe -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-teal-100 dark:bg-teal-900 flex justify-between items-center px-8 h-16 shadow-sm border-b border-teal-200/20 dark:border-teal-800/30">
+  <!-- Logo -->
+  <div class="inline-flex">
+    <a routerLink="/home" class="flex items-center">
+      <div class="hidden md:block bg-white rounded-lg px-4 py-2">
+        <svg width="160" height="48" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" style="display: block">
+          <style>
+            .text {
+              font-family: 'Arial', sans-serif;
+              font-size: 48px;
+              font-weight: bold;
+              fill: none;
+              stroke: #0d9488;
+              stroke-width: 2;
+              stroke-dasharray: 500;
+              stroke-dashoffset: 500;
+              animation: draw 2s ease forwards, fillColor 1s ease forwards 2.2s;
+            }
+            @keyframes draw {
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+            @keyframes fillColor {
+              to {
+                fill: #0d9488;
+                stroke: none;
+              }
+            }
+          </style>
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text">
+            VTC - GENEVE
+          </text>
+        </svg>
+      </div>
+      <div class="block md:hidden bg-white rounded-lg px-3 py-2">
+        <svg width="120" height="36" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" style="display: block">
+          <style>
+            .text {
+              font-family: 'Arial', sans-serif;
+              font-size: 36px;
+              font-weight: bold;
+              fill: none;
+              stroke: #0d9488;
+              stroke-width: 2;
+              stroke-dasharray: 500;
+              stroke-dashoffset: 500;
+              animation: draw 2s ease forwards, fillColor 1s ease forwards 2.2s;
+            }
+            @keyframes draw {
+              to {
+                stroke-dashoffset: 0;
+              }
+            }
+            @keyframes fillColor {
+              to {
+                fill: #0d9488;
+                stroke: none;
+              }
+            }
+          </style>
+          <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="text">
+            VTC - GENEVE
+          </text>
+        </svg>
+      </div>
+    </a>
+  </div>
+
+  <!-- Navigation Links -->
+  <div class="hidden md:flex items-center gap-6">
+    <a routerLink="/home" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Accueil</a>
+    
+    <!-- Liens affichés uniquement si l'utilisateur est connecté -->
+    <ng-container *ngIf="isAuthenticated()">
+      <a routerLink="/quiz" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Quiz</a>
+      <a routerLink="/statistiques" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Statistiques</a>
+      <a routerLink="/profil" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Profil</a>
+    </ng-container>
+    
+    <!-- Liens de connexion/inscription affichés si l'utilisateur n'est pas connecté -->
+    <ng-container *ngIf="!isAuthenticated()">
+      <a routerLink="/login" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Connexion</a>
+      <a routerLink="/register" routerLinkActive="text-teal-600 dark:text-teal-400 font-semibold" class="text-teal-700 hover:text-teal-600 dark:text-teal-200 dark:hover:text-teal-400 transition-colors duration-200">Inscription</a>
+    </ng-container>
+  </div>
+
+  <!-- Mobile Menu Button -->
+  <div class="flex-initial">
+    <button (click)="toggleMenu()" class="md:hidden inline-flex items-center justify-center rounded-md p-2 text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors duration-200">
+      <svg class="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="open()" class="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-teal-950 rounded-b-2xl border border-teal-200/20 dark:border-teal-800/30 shadow-lg mt-2">
+    <div class="space-y-1 px-4 pb-3 pt-2">
+      <a (click)="closeMenu()" routerLink="/home" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Accueil</a>
+      
+      <!-- Liens affichés uniquement si l'utilisateur est connecté -->
+      <ng-container *ngIf="isAuthenticated()">
+        <a (click)="closeMenu()" routerLink="/quiz" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Quiz</a>
+        <a (click)="closeMenu()" routerLink="/statistiques" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Statistiques</a>
+        <a (click)="closeMenu()" routerLink="/profil" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Profil</a>
+      </ng-container>
+      
+      <!-- Liens de connexion/inscription affichés si l'utilisateur n'est pas connecté -->
+      <ng-container *ngIf="!isAuthenticated()">
+        <a (click)="closeMenu()" routerLink="/login" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Connexion</a>
+        <a (click)="closeMenu()" routerLink="/register" class="block rounded-md px-3 py-2 text-base text-teal-700 hover:bg-teal-100 dark:text-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200">Inscription</a>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+
+<!-- Nouvelle navbar moderne avec Angular -->
+<div class="min-w-screen min-h-screen bg-gray-200 px-5 pb-5 pt-20">
+  <div class="py-3 px-5 bg-white rounded shadow-xl">
+    <div class="-mx-1">
+      <ul class="flex w-full flex-wrap items-center h-10">
+        <!-- Dashboard/Accueil -->
+        <li class="block relative">
+          <a routerLink="/home" 
+             (click)="toggleDropdown('home')"
+             class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1"
+             [class.bg-teal-500]="activeDropdown() === 'home'"
+             [class.text-white]="activeDropdown() === 'home'"
+             [class.hover:bg-gray-100]="activeDropdown() !== 'home'">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-gauge"></i> </span>
+            <span>Accueil</span>
+            <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+          </a>
+          <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1 transition-all duration-300"
+               [class.opacity-100]="activeDropdown() === 'home'"
+               [class.opacity-0]="activeDropdown() !== 'home'"
+               [class.pointer-events-auto]="activeDropdown() === 'home'"
+               [class.pointer-events-none]="activeDropdown() !== 'home'"
+               [class.transform]="true"
+               [class.translate-y-0]="activeDropdown() === 'home'"
+               [class.translate-y-2]="activeDropdown() !== 'home'">
+            <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+            <div class="bg-white rounded w-full relative z-10 py-1">
+              <ul class="list-reset">
+                <li class="relative">
+                  <a routerLink="/home" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Tableau de bord</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/statistiques" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Vue d'ensemble</span> </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- Quiz -->
+        <li class="block relative">
+          <a routerLink="/quiz" 
+             (click)="toggleDropdown('quiz')"
+             class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-help-circle-outline"></i> </span>
+            <span>Quiz</span>
+            <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+          </a>
+          <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1 transition-all duration-300"
+               [class.opacity-100]="activeDropdown() === 'quiz'"
+               [class.opacity-0]="activeDropdown() !== 'quiz'"
+               [class.pointer-events-auto]="activeDropdown() === 'quiz'"
+               [class.pointer-events-none]="activeDropdown() !== 'quiz'"
+               [class.transform]="true"
+               [class.translate-y-0]="activeDropdown() === 'quiz'"
+               [class.translate-y-2]="activeDropdown() !== 'quiz'">
+            <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+            <div class="bg-white rounded w-full relative z-10 py-1">
+              <ul class="list-reset">
+                <li class="relative">
+                  <a routerLink="/quiz" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Nouveau Quiz</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/quiz" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Quiz Rapide</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/quiz" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Mode Entraînement</span> </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- Statistiques -->
+        <li class="block relative">
+          <a routerLink="/statistiques" 
+             (click)="toggleDropdown('stats')"
+             class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-chart-line"></i> </span>
+            <span>Statistiques</span>
+            <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+          </a>
+          <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1 transition-all duration-300"
+               [class.opacity-100]="activeDropdown() === 'stats'"
+               [class.opacity-0]="activeDropdown() !== 'stats'"
+               [class.pointer-events-auto]="activeDropdown() === 'stats'"
+               [class.pointer-events-none]="activeDropdown() !== 'stats'"
+               [class.transform]="true"
+               [class.translate-y-0]="activeDropdown() === 'stats'"
+               [class.translate-y-2]="activeDropdown() !== 'stats'">
+            <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+            <div class="bg-white rounded w-full relative z-10 py-1">
+              <ul class="list-reset">
+                <li class="relative">
+                  <a routerLink="/statistiques" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Progression</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/statistiques" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Scores</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/statistiques" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Historique</span> </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- Profil -->
+        <li class="block relative">
+          <a routerLink="/profil" 
+             (click)="toggleDropdown('profile')"
+             class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-account"></i> </span>
+            <span>Profil</span>
+            <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+          </a>
+          <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1 transition-all duration-300"
+               [class.opacity-100]="activeDropdown() === 'profile'"
+               [class.opacity-0]="activeDropdown() !== 'profile'"
+               [class.pointer-events-auto]="activeDropdown() === 'profile'"
+               [class.pointer-events-none]="activeDropdown() !== 'profile'"
+               [class.transform]="true"
+               [class.translate-y-0]="activeDropdown() === 'profile'"
+               [class.translate-y-2]="activeDropdown() !== 'profile'">
+            <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+            <div class="bg-white rounded w-full relative z-10 py-1">
+              <ul class="list-reset">
+                <li class="relative">
+                  <a routerLink="/profil" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Mon Profil</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/profil" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Paramètres</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/profil" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Préférences</span> </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- Authentification -->
+        <li class="block relative">
+          <a href="#" 
+             (click)="toggleDropdown('auth')"
+             class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-login"></i> </span>
+            <span>Authentification</span>
+            <span class="ml-2"> <i class="mdi mdi-chevron-down"></i> </span>
+          </a>
+          <div class="bg-white shadow-md rounded border border-gray-300 text-sm absolute top-auto left-0 min-w-full w-56 z-30 mt-1 transition-all duration-300"
+               [class.opacity-100]="activeDropdown() === 'auth'"
+               [class.opacity-0]="activeDropdown() !== 'auth'"
+               [class.pointer-events-auto]="activeDropdown() === 'auth'"
+               [class.pointer-events-none]="activeDropdown() !== 'auth'"
+               [class.transform]="true"
+               [class.translate-y-0]="activeDropdown() === 'auth'"
+               [class.translate-y-2]="activeDropdown() !== 'auth'">
+            <span class="absolute top-0 left-0 w-3 h-3 bg-white border transform rotate-45 -mt-1 ml-6"></span>
+            <div class="bg-white rounded w-full relative z-10 py-1">
+              <ul class="list-reset">
+                <li class="relative">
+                  <a routerLink="/login" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Connexion</span> </a>
+                </li>
+                <li class="relative">
+                  <a routerLink="/register" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Inscription</span> </a>
+                </li>
+                <li class="relative">
+                  <a href="#" class="px-4 py-2 flex w-full items-start hover:bg-gray-100 no-underline hover:no-underline transition-colors duration-100 cursor-pointer"> <span class="flex-1">Mot de passe oublié</span> </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <!-- Aide -->
+        <li class="block relative">
+          <a href="#" class="flex items-center h-10 leading-10 px-4 rounded cursor-pointer no-underline hover:no-underline transition-colors duration-100 mx-1 hover:bg-gray-100">
+            <span class="mr-3 text-xl"> <i class="mdi mdi-help-circle"></i> </span>
+            <span>Aide</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Styles pour les transitions -->
+<style>
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+.transform {
+    transform: translateX(0) translateY(0) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1);
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.opacity-100 {
+    opacity: 1;
+}
+
+.translate-y-2 {
+    transform: translateY(0.5rem);
+}
+
+.translate-y-0 {
+    transform: translateY(0);
+}
+
+.pointer-events-none {
+    pointer-events: none;
+}
+
+.pointer-events-auto {
+    pointer-events: auto;
+}
+</style>

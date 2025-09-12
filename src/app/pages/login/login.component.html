@@ -1,16 +1,16 @@
 <app-navbar></app-navbar>
 
-<main class="min-h-screen bg-violet-radial dark:bg-violet-radial-dark pt-24 pb-8">
+<main class="min-h-screen bg-gradient-to-br from-teal-50 to-green-50 dark:from-gray-900 dark:to-gray-800 pt-24 pb-8">
   <div class="container mx-auto px-4 max-w-md">
     
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold bg-gradient-to-r from-violetBrand-600 to-violetBrand-500 bg-clip-text text-transparent mb-2">Connexion</h1>
-      <p class="text-violetBrand-600 dark:text-violetBrand-300">Connectez-vous à votre compte VTC Quiz</p>
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-teal-600 to-green-600 bg-clip-text text-transparent mb-2">Connexion</h1>
+      <p class="text-teal-600 dark:text-teal-300">Connectez-vous à votre compte VTC Quiz</p>
     </div>
 
     <!-- Login Form -->
-    <div class="glass-violet rounded-lg shadow-elevated p-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 border border-teal-200 dark:border-teal-700">
       <form (ngSubmit)="onSubmit()" class="space-y-6">
         
         <!-- Error Message -->
@@ -29,7 +29,7 @@
 
         <!-- Email -->
         <div>
-          <label for="email" class="block text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200 mb-2">
+          <label for="email" class="block text-sm font-medium text-teal-700 dark:text-teal-200 mb-2">
             Adresse email
           </label>
           <input
@@ -38,14 +38,14 @@
             name="email"
             [(ngModel)]="credentials.email"
             required
-            class="w-full px-3 py-2 border border-violetBrand-300 dark:border-violetBrand-600 rounded-lg focus:ring-2 focus:ring-violetBrand-500 focus:border-violetBrand-500 dark:bg-violetBrand-900/30 dark:text-violetBrand-50 bg-violetBrand-50/50 transition-colors"
+            class="w-full px-3 py-2 border border-teal-300 dark:border-teal-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:text-white bg-teal-50/50 transition-colors"
             placeholder="votre.email@example.com"
           >
         </div>
 
         <!-- Password -->
         <div>
-          <label for="password" class="block text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200 mb-2">
+          <label for="password" class="block text-sm font-medium text-teal-700 dark:text-teal-200 mb-2">
             Mot de passe
           </label>
           <input
@@ -54,7 +54,7 @@
             name="password"
             [(ngModel)]="credentials.password"
             required
-            class="w-full px-3 py-2 border border-violetBrand-300 dark:border-violetBrand-600 rounded-lg focus:ring-2 focus:ring-violetBrand-500 focus:border-violetBrand-500 dark:bg-violetBrand-900/30 dark:text-violetBrand-50 bg-violetBrand-50/50 transition-colors"
+            class="w-full px-3 py-2 border border-teal-300 dark:border-teal-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:text-white bg-teal-50/50 transition-colors"
             placeholder="Votre mot de passe"
           >
         </div>
@@ -63,7 +63,7 @@
         <button
           type="submit"
           [disabled]="isLoading()"
-          class="w-full btn-violet-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
         >
           <span *ngIf="isLoading()" class="inline-flex items-center">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -77,9 +77,9 @@
       </form>
 
       <!-- Demo Account -->
-      <div class="mt-6 p-4 bg-violetBrand-50/50 dark:bg-violetBrand-900/30 rounded-lg border border-violetBrand-200/50 dark:border-violetBrand-700/50">
-        <h3 class="text-sm font-medium text-violetBrand-700 dark:text-violetBrand-200 mb-2">Compte de démonstration</h3>
-        <p class="text-xs text-violetBrand-600 dark:text-violetBrand-300">
+      <div class="mt-6 p-4 bg-teal-50/50 dark:bg-teal-900/30 rounded-lg border border-teal-200/50 dark:border-teal-700/50">
+        <h3 class="text-sm font-medium text-teal-700 dark:text-teal-200 mb-2">Compte de démonstration</h3>
+        <p class="text-xs text-teal-600 dark:text-teal-300">
           Email: demo&#64;example.com<br>
           Mot de passe: password
         </p>
@@ -87,9 +87,9 @@
 
       <!-- Register Link -->
       <div class="mt-6 text-center">
-        <p class="text-violetBrand-600 dark:text-violetBrand-300">
+        <p class="text-teal-600 dark:text-teal-300">
           Vous n'avez pas de compte ? 
-          <a routerLink="/register" class="text-violetBrand-600 hover:text-violetBrand-700 dark:text-violetBrand-400 dark:hover:text-violetBrand-300 font-medium transition-colors">
+          <a routerLink="/register" class="text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 font-medium transition-colors">
             Créer un compte
           </a>
         </p>

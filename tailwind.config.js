@@ -7,18 +7,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        violetBrand: {
-          50: '#FBF6FE',
-          100: '#F4EAFD',
-          200: '#ECD9FB',
-          300: '#DDBBF7',
-          400: '#C890F0',
-          500: '#B265E7',
-          600: '#9D45D8',
-          700: '#8833BD',
-          800: '#732E9B',
-          900: '#4E2068',
-          950: '#40105B'
+        tealBrand: {
+          50: '#F0FDFA',
+          100: '#CCFBF1',
+          200: '#99F6E4',
+          300: '#5EEAD4',
+          400: '#2DD4BF',
+          500: '#14B8A6',
+          600: '#0D9488',
+          700: '#0F766E',
+          800: '#115E59',
+          900: '#134E4A',
+          950: '#042F2E'
         },
         beigeBrand: {
           50: '#faf7f0',
@@ -34,7 +34,7 @@ module.exports = {
         }
       },
       boxShadow: {
-        elevated: '0 12px 30px -10px rgba(157,69,216,.35)'
+        elevated: '0 12px 30px -10px rgba(20,184,166,.35)'
       },
       keyframes: {
         slideDown: {
@@ -56,8 +56,8 @@ module.exports = {
         fadeIn: 'fadeIn .6s ease-out'
       },
       backgroundImage: {
-        'violet-beige': 'radial-gradient(80% 80% at 10% 10%, rgba(200,144,240,.35) 0%, rgba(255,255,255,0) 60%), radial-gradient(80% 80% at 90% 10%, rgba(157,69,216,.25) 0%, rgba(255,255,255,0) 60%), linear-gradient(180deg, #f5efe6 0%, #faf7f0 100%)',
-        'violet-beige-dark': 'radial-gradient(80% 80% at 10% 10%, rgba(200,144,240,.15) 0%, rgba(0,0,0,0) 60%), radial-gradient(80% 80% at 90% 10%, rgba(157,69,216,.15) 0%, rgba(0,0,0,0) 60%), linear-gradient(180deg, #0f0b16 0%, #120f1a 100%)'
+        'teal-beige': 'radial-gradient(80% 80% at 10% 10%, rgba(20,184,166,.35) 0%, rgba(255,255,255,0) 60%), radial-gradient(80% 80% at 90% 10%, rgba(13,148,136,.25) 0%, rgba(255,255,255,0) 60%), linear-gradient(180deg, #f5efe6 0%, #faf7f0 100%)',
+        'teal-beige-dark': 'radial-gradient(80% 80% at 10% 10%, rgba(20,184,166,.15) 0%, rgba(0,0,0,0) 60%), radial-gradient(80% 80% at 90% 10%, rgba(13,148,136,.15) 0%, rgba(0,0,0,0) 60%), linear-gradient(180deg, #0f0b16 0%, #120f1a 100%)'
       }
     },
   },

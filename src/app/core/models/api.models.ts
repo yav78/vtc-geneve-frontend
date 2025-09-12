@@ -41,6 +41,7 @@ export interface Category {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  questions?: Question[];
 }
 
 // Interfaces de questions
@@ -98,6 +99,7 @@ export interface CreateQuestionSessionDto {
   timeLimit: number;
   passingScore: number;
   isActive: boolean;
+  order: number;
   questionIds: string[];
 }
 
@@ -110,6 +112,7 @@ export interface QuestionSession {
   isActive: boolean;
   timeLimit: number;
   passingScore: number;
+  order: number;
   createdAt: string;
   updatedAt: string;
   category?: Category;
@@ -124,6 +127,7 @@ export interface UpdateQuestionSessionDto {
   timeLimit?: number;
   passingScore?: number;
   isActive?: boolean;
+  order?: number;
   questionIds?: string[];
 }
 
@@ -132,7 +136,7 @@ export interface QuizSession {
   id: string;
   userId: string;
   questionSessionId: string;
-  status: string;
+  status: 'in_progress' | 'completed' | 'abandoned';
   score: number;
   totalQuestions: number;
   correctAnswers: number;
@@ -142,6 +146,8 @@ export interface QuizSession {
   isPassed: boolean;
   createdAt: string;
   updatedAt: string;
+  questionSession?: QuestionSession;
+  answers?: QuizAnswer[];
 }
 
 export interface QuizAnswer {
@@ -153,11 +159,24 @@ export interface QuizAnswer {
   timeSpent: number;
   createdAt: string;
   updatedAt: string;
+  question?: Question;
+  selectedAnswer?: AnswerChoice;
 }
 
 export interface SubmitAnswerDto {
   questionId: string;
   answerChoiceId: string;
   timeSpent: number;
+}
+
+// Interfaces pour les paramètres de requête
+export interface QuizSessionQueryParams {
+  questionSessionId?: string;
+  status?: string;
+}
+
+export interface QuestionsByCategoryParams {
+  limit: number;
+  page: number;
 }
 

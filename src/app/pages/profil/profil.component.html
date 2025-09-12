@@ -1,69 +1,354 @@
 <app-navbar></app-navbar>
-<div class="pt-24 max-w-3xl mx-auto px-4 min-h-screen bg-violet-radial dark:bg-violet-radial-dark">
-  <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-violetBrand-600 to-violetBrand-500 bg-clip-text text-transparent">Profil & Abonnement</h2>
-  
-  <!-- Loading state -->
-  <div *ngIf="isLoading()" class="text-center py-8">
-    <div class="inline-flex items-center text-violetBrand-600 dark:text-violetBrand-400">
-      <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      Chargement...
-    </div>
-  </div>
 
-  <!-- Content -->
-  <div *ngIf="!isLoading()" class="grid gap-6 md:grid-cols-2">
-    <div class="glass-violet rounded-xl p-6">
-      <h3 class="font-semibold mb-2 text-violetBrand-800 dark:text-violetBrand-100">Informations</h3>
-      <div class="space-y-2 text-sm text-violetBrand-700 dark:text-violetBrand-200">
-        <div>Nom: {{ getCurrentUser()()?.firstName }} {{ getCurrentUser()()?.lastName }}</div>
-        <div>Email: {{ getCurrentUser()()?.email }}</div>
-        <div>Statut:
-          <ng-container [ngSwitch]="state().status">
-            <span *ngSwitchCase="'trial'" class="px-2 py-1 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200">Essai actif</span>
-            <span *ngSwitchCase="'active'" class="px-2 py-1 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200">Abonné</span>
-            <span *ngSwitchCase="'expired'" class="px-2 py-1 rounded bg-rose-100 dark:bg-rose-900/50 text-rose-800 dark:text-rose-200">Expiré</span>
-            <span *ngSwitchDefault class="px-2 py-1 rounded bg-violetBrand-100 dark:bg-violetBrand-800 text-violetBrand-800 dark:text-violetBrand-200">Aucun</span>
-          </ng-container>
-        </div>
-        <div *ngIf="state().expiresAt">
-          Expire le: {{ state().expiresAt | date:'dd/MM/yyyy' }}
+<!-- ====== Pricing Section Start -->
+<section class="relative z-10 overflow-hidden bg-gradient-to-br from-teal-50 to-green-50 dark:from-gray-900 dark:to-gray-800 pb-12 pt-24 lg:pb-[90px] lg:pt-[120px]">
+  <div class="container mx-auto px-4">
+    <div class="-mx-4 flex flex-wrap">
+      <div class="w-full px-4">
+        <div class="mx-auto mb-[60px] max-w-[510px] text-center">
+          <span class="mb-2 block text-lg font-semibold text-teal-600 dark:text-teal-400">
+            Abonnement Premium
+          </span>
+          <h2 class="mb-3 text-3xl font-bold leading-[1.208] text-gray-900 dark:text-white sm:text-4xl md:text-[40px]">
+            Accès Complet VTC Genève
+          </h2>
+          <p class="text-base text-gray-600 dark:text-gray-300">
+            Débloquez tous les quiz, statistiques avancées et fonctionnalités premium pour votre formation VTC.
+          </p>
         </div>
       </div>
     </div>
-    
-    <div class="glass-violet rounded-xl p-6">
-      <h3 class="font-semibold mb-2 text-violetBrand-800 dark:text-violetBrand-100">Abonnement</h3>
-      <p class="text-sm text-violetBrand-600 dark:text-violetBrand-300 mb-4">Accès complet aux quiz et statistiques.</p>
-      
-      <!-- Plans disponibles -->
-      <div *ngIf="plans.length > 0" class="mb-4">
-        <h4 class="font-medium mb-2 text-violetBrand-800 dark:text-violetBrand-100">Plans disponibles:</h4>
-        <div class="space-y-2">
-          <div *ngFor="let plan of plans" class="p-3 border border-violetBrand-200/50 dark:border-violetBrand-700/50 rounded-lg bg-violetBrand-50/50 dark:bg-violetBrand-900/30">
-            <div class="font-medium text-violetBrand-800 dark:text-violetBrand-100">{{ plan.name }}</div>
-            <div class="text-sm text-violetBrand-600 dark:text-violetBrand-300">{{ plan.description }}</div>
-            <div class="text-lg font-bold text-violetBrand-600 dark:text-violetBrand-400">{{ plan.price }} CHF</div>
+
+    <div class="-mx-4 flex flex-wrap justify-center">
+      <div class="w-full px-4 md:w-1/2 lg:w-1/3">
+        <div class="relative z-10 mb-10 overflow-hidden rounded-[10px] border-2 border-teal-200 bg-white px-8 py-10 shadow-pricing sm:p-12 lg:px-6 lg:py-10 xl:p-[50px] dark:border-teal-700 dark:bg-gray-800">
+          <span class="mb-3 block text-lg font-semibold text-teal-600 dark:text-teal-400">
+            Premium
+          </span>
+          <h2 class="mb-5 text-[42px] font-bold text-gray-900 dark:text-white">
+            <span>349</span>
+            <span class="text-base font-medium text-gray-600 dark:text-gray-300">
+              CHF
+            </span>
+          </h2>
+          <p class="mb-8 border-b border-teal-200 pb-8 text-base text-gray-600 dark:border-teal-700 dark:text-gray-300">
+            Accès complet et illimité à tous les quiz et fonctionnalités premium pour votre formation VTC.
+          </p>
+          <div class="mb-9 flex flex-col gap-[14px]">
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Quiz illimités</p>
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Statistiques détaillées</p>
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Mode entraînement</p>
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Historique complet</p>
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Support prioritaire</p>
+            <p class="text-base text-gray-600 dark:text-gray-300">✅ Mises à jour gratuites</p>
+          </div>
+          
+          <!-- Moyens de paiement -->
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">Moyens de paiement acceptés :</h4>
+            <div class="flex flex-wrap gap-2">
+              <div class="payment-method flex items-center bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
+                <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                </svg>
+                Carte
+              </div>
+              <div class="payment-method flex items-center bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
+                <svg class="w-4 h-4 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.067 8.478c.492.315.844.825.844 1.522 0 .697-.352 1.207-.844 1.522L12 15.5l-8.067-3.978c-.492-.315-.844-.825-.844-1.522 0-.697.352-1.207.844-1.522L12 4.5l8.067 3.978z"/>
+                </svg>
+                PayPal
+              </div>
+              <div class="payment-method flex items-center bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
+                <svg class="w-4 h-4 mr-1 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                TWINT
+              </div>
+              <div class="payment-method flex items-center bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
+                <svg class="w-4 h-4 mr-1 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                Apple Pay
+              </div>
+              <div class="payment-method flex items-center bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
+                <svg class="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Google Pay
+              </div>
+            </div>
+          </div>
+          
+          <button 
+            (click)="openPaymentModal()"
+            class="btn-subscribe block w-full rounded-md border border-teal-600 bg-teal-600 p-3 text-center text-base font-medium text-white transition hover:bg-teal-700 hover:shadow-lg">
+            S'abonner maintenant
+          </button>
+
+          <!-- Éléments décoratifs -->
+          <div>
+            <span class="absolute right-0 top-7 z-[-1]">
+              <svg width="77" height="172" viewBox="0 0 77 172" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="86" cy="86" r="86" fill="url(#paint0_linear)" />
+                <defs>
+                  <linearGradient id="paint0_linear" x1="86" y1="0" x2="86" y2="172" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#14B8A6" stop-opacity="0.09" />
+                    <stop offset="1" stop-color="#C4C4C4" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span class="absolute right-4 top-4 z-[-1]">
+              <svg width="41" height="89" viewBox="0 0 41 89" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="38.9138" cy="87.4849" r="1.42021" transform="rotate(180 38.9138 87.4849)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="74.9871" r="1.42021" transform="rotate(180 38.9138 74.9871)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="62.4892" r="1.42021" transform="rotate(180 38.9138 62.4892)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="38.3457" r="1.42021" transform="rotate(180 38.9138 38.3457)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="13.634" r="1.42021" transform="rotate(180 38.9138 13.634)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="50.2754" r="1.42021" transform="rotate(180 38.9138 50.2754)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="26.1319" r="1.42021" transform="rotate(180 38.9138 26.1319)" fill="#14B8A6" />
+                <circle cx="38.9138" cy="1.42021" r="1.42021" transform="rotate(180 38.9138 1.42021)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="87.4849" r="1.42021" transform="rotate(180 26.4157 87.4849)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="74.9871" r="1.42021" transform="rotate(180 26.4157 74.9871)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="62.4892" r="1.42021" transform="rotate(180 26.4157 62.4892)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="38.3457" r="1.42021" transform="rotate(180 26.4157 38.3457)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="13.634" r="1.42021" transform="rotate(180 26.4157 13.634)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="50.2754" r="1.42021" transform="rotate(180 26.4157 50.2754)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="26.1319" r="1.42021" transform="rotate(180 26.4157 26.1319)" fill="#14B8A6" />
+                <circle cx="26.4157" cy="1.4202" r="1.42021" transform="rotate(180 26.4157 1.4202)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="87.4849" r="1.42021" transform="rotate(180 13.9177 87.4849)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="74.9871" r="1.42021" transform="rotate(180 13.9177 74.9871)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="62.4892" r="1.42021" transform="rotate(180 13.9177 62.4892)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="38.3457" r="1.42021" transform="rotate(180 13.9177 38.3457)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="13.634" r="1.42021" transform="rotate(180 13.9177 13.634)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="50.2754" r="1.42021" transform="rotate(180 13.9177 50.2754)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="26.1319" r="1.42021" transform="rotate(180 13.9177 26.1319)" fill="#14B8A6" />
+                <circle cx="13.9177" cy="1.42019" r="1.42021" transform="rotate(180 13.9177 1.42019)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="87.4849" r="1.42021" transform="rotate(180 1.41963 87.4849)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="74.9871" r="1.42021" transform="rotate(180 1.41963 74.9871)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="62.4892" r="1.42021" transform="rotate(180 1.41963 62.4892)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="38.3457" r="1.42021" transform="rotate(180 1.41963 38.3457)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="13.634" r="1.42021" transform="rotate(180 1.41963 13.634)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="50.2754" r="1.42021" transform="rotate(180 1.41963 50.2754)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="26.1319" r="1.42021" transform="rotate(180 1.41963 26.1319)" fill="#14B8A6" />
+                <circle cx="1.41963" cy="1.4202" r="1.42021" transform="rotate(180 1.41963 1.4202)" fill="#14B8A6" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informations utilisateur en bas -->
+    <div class="mt-12 max-w-2xl mx-auto">
+      <!-- Carte Informations du compte -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-teal-200 dark:border-teal-700 shadow-lg">
+        <h3 class="font-semibold mb-4 text-teal-800 dark:text-teal-100 text-lg">Informations du compte</h3>
+        <div class="space-y-3">
+          <div class="text-sm text-gray-600 dark:text-gray-300">
+            <span class="font-medium">Nom:</span> {{ getCurrentUser()()?.firstName }} {{ getCurrentUser()()?.lastName }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-300">
+            <span class="font-medium">Email:</span> {{ getCurrentUser()()?.email }}
+          </div>
+          <div class="text-sm text-gray-600 dark:text-gray-300">
+            <span class="font-medium">Statut:</span>
+            <ng-container [ngSwitch]="state().status">
+              <span *ngSwitchCase="'trial'" class="ml-2 px-2 py-1 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 text-xs">Essai actif</span>
+              <span *ngSwitchCase="'active'" class="ml-2 px-2 py-1 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200 text-xs">Abonné</span>
+              <span *ngSwitchCase="'expired'" class="ml-2 px-2 py-1 rounded bg-rose-100 dark:bg-rose-900/50 text-rose-800 dark:text-rose-200 text-xs">Expiré</span>
+              <span *ngSwitchDefault class="ml-2 px-2 py-1 rounded bg-teal-100 dark:bg-teal-800 text-teal-800 dark:text-teal-200 text-xs">Aucun</span>
+            </ng-container>
+          </div>
+          <div *ngIf="state().expiresAt" class="text-sm text-gray-600 dark:text-gray-300">
+            <span class="font-medium">Expire le:</span> {{ state().expiresAt | date:'dd/MM/yyyy' }}
+          </div>
+        </div>
+        
+        <!-- Bouton essai gratuit -->
+        <div class="mt-6 pt-4 border-t border-teal-200 dark:border-teal-700">
+          <button 
+            *ngIf="state().status === 'none'"
+            class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl" 
+            (click)="startTrial()">
+            🎁 Démarrer l'essai gratuit 24h
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ====== Pricing Section End -->
+
+<!-- Modal de paiement -->
+<div *ngIf="showPaymentModal()" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <!-- Overlay -->
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" (click)="closePaymentModal()"></div>
+
+    <!-- Modal content -->
+    <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4" id="modal-title">
+              Paiement - Abonnement Premium
+            </h3>
+            
+            <!-- Résumé de la commande -->
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm text-gray-600 dark:text-gray-300">Abonnement Premium</span>
+                <span class="text-lg font-bold text-teal-600 dark:text-teal-400">349 CHF</span>
+              </div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">
+                Accès complet et illimité à tous les quiz et fonctionnalités
+              </div>
+            </div>
+
+            <!-- Sélection du moyen de paiement -->
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Choisissez votre moyen de paiement :
+              </label>
+              
+              <div class="space-y-3">
+                <!-- Carte bancaire -->
+                <div class="payment-option" [class.selected]="selectedPaymentMethod() === 'card'">
+                  <input type="radio" id="card" name="payment" value="card" 
+                         [checked]="selectedPaymentMethod() === 'card'"
+                         (change)="selectPaymentMethod('card')" class="sr-only">
+                  <label for="card" class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-full mr-3 flex items-center justify-center">
+                        <div *ngIf="selectedPaymentMethod() === 'card'" class="w-3 h-3 bg-teal-600 rounded-full"></div>
+                      </div>
+                      <svg class="w-6 h-6 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900 dark:text-white">Carte bancaire</span>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- PayPal -->
+                <div class="payment-option" [class.selected]="selectedPaymentMethod() === 'paypal'">
+                  <input type="radio" id="paypal" name="payment" value="paypal" 
+                         [checked]="selectedPaymentMethod() === 'paypal'"
+                         (change)="selectPaymentMethod('paypal')" class="sr-only">
+                  <label for="paypal" class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-full mr-3 flex items-center justify-center">
+                        <div *ngIf="selectedPaymentMethod() === 'paypal'" class="w-3 h-3 bg-teal-600 rounded-full"></div>
+                      </div>
+                      <svg class="w-6 h-6 text-blue-500 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.067 8.478c.492.315.844.825.844 1.522 0 .697-.352 1.207-.844 1.522L12 15.5l-8.067-3.978c-.492-.315-.844-.825-.844-1.522 0-.697.352-1.207.844-1.522L12 4.5l8.067 3.978z"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900 dark:text-white">PayPal</span>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- TWINT -->
+                <div class="payment-option" [class.selected]="selectedPaymentMethod() === 'twint'">
+                  <input type="radio" id="twint" name="payment" value="twint" 
+                         [checked]="selectedPaymentMethod() === 'twint'"
+                         (change)="selectPaymentMethod('twint')" class="sr-only">
+                  <label for="twint" class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-full mr-3 flex items-center justify-center">
+                        <div *ngIf="selectedPaymentMethod() === 'twint'" class="w-3 h-3 bg-teal-600 rounded-full"></div>
+                      </div>
+                      <svg class="w-6 h-6 text-green-600 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900 dark:text-white">TWINT</span>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- Apple Pay -->
+                <div class="payment-option" [class.selected]="selectedPaymentMethod() === 'applepay'">
+                  <input type="radio" id="applepay" name="payment" value="applepay" 
+                         [checked]="selectedPaymentMethod() === 'applepay'"
+                         (change)="selectPaymentMethod('applepay')" class="sr-only">
+                  <label for="applepay" class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-full mr-3 flex items-center justify-center">
+                        <div *ngIf="selectedPaymentMethod() === 'applepay'" class="w-3 h-3 bg-teal-600 rounded-full"></div>
+                      </div>
+                      <svg class="w-6 h-6 text-black mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900 dark:text-white">Apple Pay</span>
+                    </div>
+                  </label>
+                </div>
+
+                <!-- Google Pay -->
+                <div class="payment-option" [class.selected]="selectedPaymentMethod() === 'googlepay'">
+                  <input type="radio" id="googlepay" name="payment" value="googlepay" 
+                         [checked]="selectedPaymentMethod() === 'googlepay'"
+                         (change)="selectPaymentMethod('googlepay')" class="sr-only">
+                  <label for="googlepay" class="flex items-center p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="flex items-center">
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded-full mr-3 flex items-center justify-center">
+                        <div *ngIf="selectedPaymentMethod() === 'googlepay'" class="w-3 h-3 bg-teal-600 rounded-full"></div>
+                      </div>
+                      <svg class="w-6 h-6 text-green-500 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                      <span class="text-sm font-medium text-gray-900 dark:text-white">Google Pay</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Formulaire de carte (affiché seulement si carte sélectionnée) -->
+            <div *ngIf="selectedPaymentMethod() === 'card'" class="mb-6">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Numéro de carte
+                  </label>
+                  <input type="text" placeholder="1234 5678 9012 3456" 
+                         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Date d'expiration
+                    </label>
+                    <input type="text" placeholder="MM/AA" 
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:text-white">
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      CVV
+                    </label>
+                    <input type="text" placeholder="123" 
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:text-white">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="grid gap-3">
-        <button 
-          *ngIf="state().status === 'none'"
-          class="w-full btn-violet-primary" 
-          (click)="startTrial()">
-          Démarrer l'essai 24h
+      <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button" 
+                (click)="processPayment()"
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-teal-600 text-base font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:ml-3 sm:w-auto sm:text-sm">
+          Payer 349 CHF
         </button>
-        <button 
-          *ngIf="state().status === 'none'"
-          class="w-full btn-violet-primary" 
-          (click)="activateAnnual()">
-          S'abonner
+        <button type="button" 
+                (click)="closePaymentModal()"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Annuler
         </button>
-        <div class="text-xs text-violetBrand-500 dark:text-violetBrand-400">Paiements à intégrer: Apple Pay, Google Pay, Carte, PayPal, TWINT</div>
       </div>
     </div>
   </div>
