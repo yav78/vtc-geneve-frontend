@@ -1,6 +1,7 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-import { NgIf, NgFor, DecimalPipe } from '@angular/common';
+import { QuizButtonComponent } from '../../shared/components/quiz-button/quiz-button.component';
+import { NgIf, NgFor } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { QuizService } from '../../core/services/quiz.service';
 import { StatisticsService } from '../../core/services/statistics.service';
@@ -11,7 +12,7 @@ import { Utils } from '../../core/services/utils.service';
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [NavbarComponent, NgIf, NgFor, DecimalPipe],
+  imports: [NavbarComponent, QuizButtonComponent, NgIf, NgFor],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss'
 })
@@ -23,7 +24,6 @@ export class QuizComponent implements OnInit {
   question = signal<Question | null>(null);
   answers = signal<number[]>([]);
   startTime = signal<Date | null>(null);
-  isLoading = signal(false);
 
   // Nouvelles propriétés pour le feedback immédiat
   showFeedback = signal(false);
@@ -90,8 +90,6 @@ export class QuizComponent implements OnInit {
 
   // Méthode pour démarrer un quiz spécifique
   async startSpecificQuiz(sessionId: string) {
-    this.isLoading.set(true);
-
     try {
       // Vérifier s'il y a une progression sauvegardée
       const savedProgress = this.checkSavedProgress(sessionId);
@@ -100,7 +98,6 @@ export class QuizComponent implements OnInit {
       if (savedProgress && savedProgress.status === 'non_terminé') {
         console.log('Reprise automatique du quiz');
         await this.resumeQuiz(savedProgress);
-        this.isLoading.set(false);
         return;
       }
 
@@ -141,33 +138,28 @@ export class QuizComponent implements OnInit {
                 this.answers.set(new Array(this.questions.length).fill(-1));
                 this.startTime.set(new Date());
                 this.started.set(true);
-                this.isLoading.set(false);
 
                 // Charger la première question
                 this.question.set(this.questions[0]);
                 console.log('Première question chargée:', this.questions[0]);
               } else {
                 console.error('Aucune question trouvée dans la session');
-                this.isLoading.set(false);
                 alert('Aucune question trouvée dans cette session de quiz');
               }
             },
             error: (error) => {
               console.error('Erreur lors du chargement de la session:', error);
-              this.isLoading.set(false);
               alert('Erreur lors du chargement de la session');
             }
           });
         },
         error: (error) => {
           console.error('Erreur lors du démarrage du quiz:', error);
-          this.isLoading.set(false);
           alert('Erreur lors du démarrage du quiz');
         }
       });
     } catch (error) {
       console.error('Erreur lors du démarrage du quiz:', error);
-      this.isLoading.set(false);
       alert('Erreur lors du démarrage du quiz');
     }
   }
@@ -649,5 +641,15 @@ export class QuizComponent implements OnInit {
     console.log(`Session ${sessionId} a une progression: ${hasProgress}`);
 
     return hasProgress;
+  }
+
+  // Méthode pour gérer les clics sur les boutons de quiz
+  onQuizButtonClick(sessionId: string) {
+    this.startSpecificQuiz(sessionId);
+  }
+
+  // Méthode pour gérer les clics sur le bouton de redémarrage
+  onRestartQuizClick(sessionId: string) {
+    this.restartQuiz(sessionId);
   }
 }
