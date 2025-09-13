@@ -1,0 +1,26 @@
+<div class="fixed top-4 right-4 z-50 space-y-2">
+  <div 
+    *ngFor="let notification of notifications; trackBy: trackByFn"
+    [class]="getNotificationClasses(notification)"
+    class="animate-slide-in">
+    <div class="flex items-start">
+      <div [class]="getIconClasses(notification)" [innerHTML]="getIconSvg(notification)"></div>
+      <div class="flex-1">
+        <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+          {{ notification.title }}
+        </h4>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ notification.message }}
+        </p>
+      </div>
+      <button 
+        (click)="remove(notification.id)"
+        class="ml-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
